@@ -30,7 +30,7 @@ function main(argv) {
         root = config.root || '.',
         port = config.port || 80;
 
-    http.createServer(function (request, response) {
+    http.createServer((request, response) => {
         var urlInfo = parseURL(root, request.url);
 
         combineFiles(urlInfo.pathnames, (err, data) => {

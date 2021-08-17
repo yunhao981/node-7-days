@@ -1,6 +1,6 @@
 var fs = require('fs'),
     path = require('path'),
-    http = reuqire('http');
+    http = require('http');
 
 var MIME = {
     '.css': 'text/css',
@@ -11,7 +11,7 @@ function combineFiles(pathnames, callback) {
     var output = [];
     (function next(i, len) {
         if (i<len) {
-            fs.readFile(pathnames[i], function (err, data) {
+            fs.readFile(pathnames[i], (err, data) => {
                 if (err) {
                     callback(err);
                 } else {
@@ -33,10 +33,10 @@ function main(argv) {
     http.createServer(function (request, response) {
         var urlInfo = parseURL(root, request.url);
 
-        combineFiles(urlInfo.pathnames, function (err, data) {
+        combineFiles(urlInfo.pathnames, (err, data) => {
             if (err) {
                 response.writeHead(404);
-                response.end(err.message);
+                response.end('404\n' + err.message);
             } else {
                 resposnse.writeHead(200, {
                     'Content-Type': urlInfo.mime
@@ -56,7 +56,7 @@ function parseURL(root, url) {
 
     parts = url.split('??');
     base = parts[0];
-    pathnames = parts[1].split(',').map(function (value) {
+    pathnames = parts[1].split(',').map(value => {
         return path.join(root, base, value);
     });
 
